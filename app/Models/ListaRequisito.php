@@ -24,4 +24,9 @@ class ListaRequisito extends Model
     {
         return $this->hasMany(Requisito::class, 'lista_requisitos_id');
     }
+
+    public function listasTareas()
+    {
+        return $this->belongsToMany(ListaTarea::class);
+    }
 }

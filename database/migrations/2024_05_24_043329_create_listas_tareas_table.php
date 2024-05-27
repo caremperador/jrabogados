@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('nombre');
+            $table->decimal('progreso')->default(0.00);
+            $table->string('estado_pago', 20)->default('sin_pagar');
+            $table->decimal('adelanto', 10, 2)->default(0.00);
+            $table->decimal('monto_total', 10, 2)->default(0.00);
             $table->timestamps();
 
         

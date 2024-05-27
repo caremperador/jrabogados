@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\EstadoPagoEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +18,13 @@ class ListaTareaFactory extends Factory
      */
     public function definition(): array
     {
+        $monto_total = 100;
         return [
             'user_id' => User::factory(), // Relación con User
             'nombre' => 'lista tareas ' . fake()->sentence,
+            'estado_pago' => fake()->randomElement(array_column(EstadoPagoEnum::cases(), 'value')),
+            'adelanto' => mt_rand(10, $monto_total),
+            'monto_total' => $monto_total,
             'created_at' => now(),
             'updated_at' => now(),
         ];

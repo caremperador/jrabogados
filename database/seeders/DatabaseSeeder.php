@@ -31,9 +31,14 @@ class DatabaseSeeder extends Seeder
             ListaTarea::factory(2)->create(['user_id' => $user->id]);
         });
 
-        // Crear 5 tareas para cada lista de tareas
-        ListaTarea::all()->each(function ($listaTarea) {
+        // Crear 5 tareas para cada lista de tareas y asocias listas de requisitos a la lista de tareas
+        ListaTarea::all()->each(function ($listaTarea) use ($users) {
             Tarea::factory(5)->create(['lista_tareas_id' => $listaTarea->id]);
+
+            $listasRequisitos = ListaRequisito::factory(mt_rand(1, 10))
+                ->create(['user_id' => $listaTarea->user_id]);
+        
+            $listaTarea->listasRequisitos()->attach($listasRequisitos);
         });
 
         // Crear 5 requisitos para cada lista de requisitos

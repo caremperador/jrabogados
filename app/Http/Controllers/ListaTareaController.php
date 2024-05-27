@@ -36,16 +36,20 @@ class ListaTareaController extends Controller
         $totalTareas = $listasTarea->tareas->count();
         $tareasCompletadas = $listasTarea->tareas->where('estado', EstadoTareaEnum::COMPLETADA)->count();
         $progreso = $totalTareas > 0 ? ($tareasCompletadas / $totalTareas) * 100 : 0;
-        $colorbarra = '';
 
+        // Actualizar el campo progreso en la base de datos
+        $listasTarea->update(['progreso' => $progreso]);
+        
+        // Determinar el color de la barra de progreso
+        $colorbarra = '';
         if ($progreso < 25) {
-            $colorbarra = 'bg-red-500';
+            $colorbarra = 'red';
         } elseif ($progreso < 50) {
-            $colorbarra = 'bg-orange-500';
+            $colorbarra = 'orange';
         } elseif ($progreso < 75) {
-            $colorbarra = 'bg-yellow-500';
+            $colorbarra = 'yellow';
         } else {
-            $colorbarra = 'bg-green-500';
+            $colorbarra = 'green';
         }
 
         return view('listas_tareas.show', compact('listasTarea', 'progreso', 'colorbarra'));

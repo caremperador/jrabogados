@@ -13,6 +13,10 @@ class ListaTarea extends Model
     protected $fillable = [
         'user_id',
         'nombre',
+        'progreso', 
+        'estado_pago',
+        'adelanto',
+        'monto_total',
     ];
 
     public function user()
@@ -23,5 +27,9 @@ class ListaTarea extends Model
     public function tareas()
     {
         return $this->hasMany(Tarea::class, 'lista_tareas_id');
+    }
+
+    public function listasRequisitos() {
+        return $this->belongsToMany(ListaRequisito::class);
     }
 }
