@@ -37,7 +37,10 @@ class RoleAssignSeeder extends Seeder
         foreach ($usuarios as $usuario) {
             $user = User::firstOrCreate(
                 ['email' => $usuario['email']],
-                ['name' => $usuario['name'], 'password' => $usuario['password']]
+                [
+                    'name' => $usuario['name'],
+                    'password' => $usuario['password']
+                ]
             );
 
             if (!$user->hasRole($usuario['role']->name)) {
@@ -45,6 +48,4 @@ class RoleAssignSeeder extends Seeder
             }
         }
     }
-
-    
 }

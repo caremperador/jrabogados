@@ -24,7 +24,7 @@
                         @foreach ($listasRequisito->requisitos as $requisito)
                             <a href="{{ route('requisitos.show', $requisito->id) }}"
                                 class="block p-4 bg-gray-100 rounded-lg hover:bg-gray-200">
-                                <div class="flex items-center justify-between">
+                                <div class="flex items-center justify-between ">
                                     <div class="flex items-center space-x-4">
                                         @if ($requisito->tipo_documento == TipoDocumentoEnum::DOCUMENTO)
                                             <i class="fas fa-file-alt text-blue-500 text-2xl"></i>
@@ -43,7 +43,7 @@
                                     </div>
                                     <div>
                                         @if ($requisito->estado == EstadoRequisitoEnum::NO_SUBIDO)
-                                            <span class="text-red-500 font-bold"><i
+                                            <span class="text-red-500 font-bold "><i
                                                     class="fas fa-circle text-red-500"></i> No subido</span>
                                         @elseif ($requisito->estado == EstadoRequisitoEnum::REVISANDO)
                                             <span class="text-orange-500 font-bold"><i

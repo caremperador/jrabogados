@@ -18,13 +18,19 @@ class RequisitoController extends Controller
         return view('requisitos.index', compact('requisitos'));
     }
 
-    public function create()
+    public function create(?ListaRequisito $listaRequisito = null)
     {
-        $listasRequisitos = ListaRequisito::all();
-        $tipoDocumentoOptions = TipoDocumentoEnum::cases();
-        return view('requisitos.create', compact('listasRequisitos', 'tipoDocumentoOptions'));
-    }
 
+        $user_id = $listaRequisito?->user_id;
+
+        $tipoDocumentoOptions = TipoDocumentoEnum::cases();
+
+        $listasRequisitos = $listaRequisito?->user?->listasRequisitos ?? ListaRequisito::latest()->get();
+        $listaRequisito ??= $listasRequisitos->first();
+        $requisitosAsociadosLista = $listaRequisito?->requisitos ?? collect();
+
+        return view('requisitos.create', compact('listasRequisitos', 'listaRequisito', 'tipoDocumentoOptions', 'user_id', 'requisitosAsociadosLista'));
+    }
 
 
     public function store(Request $request)
@@ -44,13 +50,14 @@ class RequisitoController extends Controller
             'estado' => EstadoRequisitoEnum::NO_SUBIDO->value,
         ]);
 
-        return redirect()->route('requisitos.index')->with('success', 'Requisito creado exitosamente.');
+        return redirect()->back()->with('success', 'Requisito creado exitosamente.');
     }
 
     public function update(Request $request, Requisito $requisito)
     {
+        
         $request->validate([
-            'archivo' => 'required|file|mimes:pdf|max:2048',
+            'archivo' => 'required|file|max:2048',
         ]);
 
         $path = $request->file('archivo')->store('public/requisitos');
@@ -63,7 +70,7 @@ class RequisitoController extends Controller
             'estado' => EstadoRequisitoEnum::REVISANDO,
         ]);
 
-        return redirect()->route('requisitos.index')->with('success', 'Archivo subido exitosamente.');
+        return redirect()->route('listas_requisitos.show', $requisito->lista_requisitos_id)->with('success', 'Archivo subido exitosamente.');
     }
 
     public function show(Requisito $requisito)

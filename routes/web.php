@@ -9,7 +9,15 @@ use App\Http\Controllers\ListaRequisitoController;
 
 Route::resource('listas_tareas', ListaTareaController::class);
 Route::resource('listas_requisitos', ListaRequisitoController::class);
-Route::resource('requisitos', RequisitoController::class);
+
+
+
+Route::get('requisitos/create/{lista_requisito?}', [RequisitoController::class, 'create'])->name('requisitos.create');
+Route::resource('requisitos', RequisitoController::class)->except(['create']);
+
+
+
+
 
 
 Route::prefix('listas_tareas/{lista_tarea}')->group(function () {

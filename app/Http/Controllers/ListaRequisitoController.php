@@ -29,8 +29,9 @@ class ListaRequisitoController extends Controller
             'nombre' => 'required',
         ]);
 
-        ListaRequisito::create($request->all());
-        return redirect()->route('listas_requisitos.index');
+        $lista = ListaRequisito::create($request->all());
+        // Redirecciona a la ruta 'requisitos.create' con el user_id como parámetro de ruta
+        return redirect()->route('requisitos.create', $lista->id)->with('success', 'Lista de Requisitos creada exitosamente.');
     }
 
     public function show(ListaRequisito $listasRequisito)
