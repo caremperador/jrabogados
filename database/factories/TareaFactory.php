@@ -22,7 +22,7 @@ class TareaFactory extends Factory
             'lista_tareas_id' => ListaTarea::factory(), // Relación con ListaTarea
             'titulo' => $this->faker->sentence,
             'descripcion' => $this->faker->paragraph,
-            'estado' => $this->faker->randomElement(EstadoTareaEnum::cases()),
+            // 'estado' => $this->faker->randomElement(EstadoTareaEnum::cases()),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -32,11 +32,11 @@ class Requisito extends Model
     #[SearchUsingFullText(['titulo'])]
     public function toSearchableArray(): array
     {
-    return [
-        'id' => $this->id,
-        'titulo' => $this->titulo,
-    ];
-}
+        return [
+            'id' => $this->id,
+            'titulo' => $this->titulo,
+        ];
+    }
 
     public function listaRequisito()
     {

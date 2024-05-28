@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('lista_tareas_id');
             $table->string('titulo');
             $table->text('descripcion')->nullable();
-            $table->string('estado', 20)->default('no_iniciada'); // Valores: no_iniciada, en_proceso, completada
+            // $table->string('estado', 20)->default('no_iniciada');
             $table->timestamps();
         });
     }
