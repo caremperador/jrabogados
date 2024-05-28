@@ -22,15 +22,19 @@ class Tarea extends Model
         'estado' =>EstadoTareaEnum::class,
     ];
  */
-    /*  public function listaTarea()
+    public function listaTarea()
     {
         return $this->belongsTo(ListaTarea::class, 'lista_tareas_id');
-    } */
-    public function listaTareas()
+    }
+    /*  public function listaTareas()
     {
         return $this->belongsToMany(ListaTarea::class, 'estado_tareas', 'tarea_id', 'lista_tarea_id')
             ->using(EstadoTarea::class)
             ->withPivot('estado')
             ->withTimestamps();
+    } */
+    public function estados()
+    {
+        return $this->hasMany(EstadoTarea::class, 'tarea_id');
     }
 }
