@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\EstadoPagoEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ListaTarea extends Model
 {
@@ -13,11 +14,12 @@ class ListaTarea extends Model
     protected $fillable = [
         'user_id',
         'nombre',
-        'progreso', 
+        'progreso',
         'estado_pago',
         'adelanto',
         'monto_total',
     ];
+    protected $casts = ['estado_pago' => EstadoPagoEnum::class];
 
     public function user()
     {
@@ -29,7 +31,8 @@ class ListaTarea extends Model
         return $this->hasMany(Tarea::class, 'lista_tareas_id');
     }
 
-    public function listasRequisitos() {
+    public function listasRequisitos()
+    {
         return $this->belongsToMany(ListaRequisito::class);
     }
 }

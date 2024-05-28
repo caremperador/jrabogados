@@ -39,7 +39,7 @@ class ListaTareaController extends Controller
 
         // Actualizar el campo progreso en la base de datos
         $listasTarea->update(['progreso' => $progreso]);
-        
+
         // Determinar el color de la barra de progreso
         $colorbarra = '';
         if ($progreso < 25) {
@@ -51,8 +51,10 @@ class ListaTareaController extends Controller
         } else {
             $colorbarra = 'green';
         }
+        //calculando el lo que falta pagar del caso
+        $falta_por_pagar = $listasTarea->monto_total - $listasTarea->adelanto;
 
-        return view('listas_tareas.show', compact('listasTarea', 'progreso', 'colorbarra'));
+        return view('listas_tareas.show', compact('listasTarea', 'progreso', 'colorbarra', 'falta_por_pagar'));
     }
 
 

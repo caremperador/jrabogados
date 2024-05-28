@@ -11,7 +11,7 @@ Route::resource('listas_tareas', ListaTareaController::class);
 Route::resource('listas_requisitos', ListaRequisitoController::class);
 
 
-
+Route::get('requisitos/search', [RequisitoController::class, 'search'])->name('requisitos.search');
 Route::get('requisitos/create/{lista_requisito?}', [RequisitoController::class, 'create'])->name('requisitos.create');
 Route::resource('requisitos', RequisitoController::class)->except(['create']);
 

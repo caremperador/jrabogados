@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('requisitos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lista_requisitos_id');
-            $table->string('titulo');
+            $table->string('titulo')->fulltext();
             $table->text('descripcion')->nullable();
             $table->string('tipo_documento', 20)->default('pdf'); // Valores: pdf, foto, audio, otro
             $table->string('estado', 20)->default('no_subido'); // Valores: no_subido, revisando, rechazado, aprobado

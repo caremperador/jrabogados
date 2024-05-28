@@ -18,6 +18,12 @@ class RequisitoController extends Controller
         return view('requisitos.index', compact('requisitos'));
     }
 
+    public function search(Request $request, Requisito $requisito) {
+        $q = $request->input('q', '');
+        $requisitos = Requisito::search($q)->get();
+        return response()->json($requisitos);
+    }
+
     public function create(?ListaRequisito $listaRequisito = null)
     {
 

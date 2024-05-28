@@ -43,7 +43,8 @@
                         </div>
                         
                         <div class="mb-4">
-                            @if (!empty($requisitosAsociadosLista))
+                          
+                            @if ($requisitosAsociadosLista->count())
                                 <label for="lista_requisitos_id" class="block text-gray-700 font-bold mb-2">requisitos
                                     creados para esa lista</label>
                                 @foreach ($requisitosAsociadosLista as $requisito)
@@ -53,9 +54,36 @@
                         </div>
                         <div class="mb-4">
                             <label for="titulo" class="block text-gray-700 font-bold mb-2">Título</label>
-                            <input type="text" name="titulo" id="titulo"
+                            <div x-data="{
+                                input: '',
+                                opened: false,
+                                results: [],
+                                controller: new AbortController(),
+                                init() {
+                                    this.$watch('input', (newValue, oldValue) => {
+                                        this.opened = newValue.length > 0;
+                                        this.search();
+                                    })
+                                },
+                                async search() {
+                                    this.controller.abort()
+                                    this.controller = new AbortController()
+                                    let signal = this.controller.signal
+                                    let params = new URLSearchParams()
+                                    params.append('q', this.input)
+                                    let response = await fetch(`/requisitos/search?${params}`);
+                                    this.results = await response.json();
+                                }
+                            }" class="relative">
+                                <input type="text" name="titulo" id="titulo" x-model="input"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500"
-                                value="{{ old('titulo') }}">
+                                value="{{ old('titulo') }}" aria-autocomplete="none" autocomplete="off" />
+                                <div x-clock x-show="opened" class="absolute left-0 right-0 py-3 px-2 top-2 bg-green-50" style="top:44px">
+                                    <template x-for="(row, index) in  results" :key="index">
+                                        <div class="p-3 cursor-pointer" @click="input=row.titulo" @click.outside="opened=false" x-text="row.titulo"></div>
+                                    </template>
+                                </div>
+                            </div>
                             <x-input-error for="titulo" class="mt-2" />
                         </div>
                         <div class="mb-4">
