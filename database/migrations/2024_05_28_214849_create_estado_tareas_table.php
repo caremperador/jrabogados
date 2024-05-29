@@ -16,8 +16,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('lista_tarea_id');
             $table->unsignedBigInteger('tarea_id');
-            $table->string('estado', 20)->default(EstadoTareaEnum::NO_INICIADA);
+            $table->string('estado', 20)->default('no_iniciada');
             $table->timestamps();
+
+            $table->foreign('lista_tarea_id')->references('id')->on('listas_tareas')->onDelete('cascade');
+            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
         });
     }
 

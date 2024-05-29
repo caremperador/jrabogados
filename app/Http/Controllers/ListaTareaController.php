@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Tarea;
 use App\Models\ListaTarea;
+use App\Models\EstadoTarea;
 use Illuminate\Http\Request;
 use App\Enums\EstadoTareaEnum;
 
@@ -11,24 +13,36 @@ class ListaTareaController extends Controller
 {
     public function index()
     {
-        $listasTareas = ListaTarea::with('user')->get();
+        $listasTareas = ListaTarea::with('user')->orderBy('created_at', 'desc')->get();
         return view('listas_tareas.index', compact('listasTareas'));
     }
+
 
     public function create()
     {
         $usuarios = User::all();
-        return view('listas_tareas.create', compact('usuarios'));
+        $tareas = Tarea::all();
+        return view('listas_tareas.create', compact('usuarios', 'tareas'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'nombre' => 'required',
+            'nombre' => 'required|string|max:255',
+            'tareas' => 'nullable|array',
+            'tareas.*' => 'exists:tareas,id',
         ]);
 
-        ListaTarea::create($request->all());
-        return redirect()->route('listas_tareas.index');
+        $listaTarea = ListaTarea::create($request->only(['user_id', 'nombre']));
+
+        if ($request->has('tareas')) {
+            foreach ($request->tareas as $tareaId) {
+                $listaTarea->tareas()->attach($tareaId, ['estado' => 'no_iniciada']);
+            }
+        }
+
+        return redirect()->route('listas_tareas.index')->with('success', 'Lista de tareas creada exitosamente.');
     }
     public function show(ListaTarea $listasTarea)
     {

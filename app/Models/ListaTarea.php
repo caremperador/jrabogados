@@ -26,25 +26,25 @@ class ListaTarea extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tareas()
+   /*  public function tareas()
     {
         return $this->hasMany(Tarea::class, 'lista_tareas_id');
-    }
+    } */
 
     public function listasRequisitos()
     {
         return $this->belongsToMany(ListaRequisito::class);
     }
-    public function estados()
+   /*  public function estados()
     {
         return $this->hasMany(EstadoTarea::class, 'lista_tarea_id');
-    }
+    } */
    
-   /*  public function tareas()
+    public function tareas()
     {
         return $this->belongsToMany(Tarea::class, 'estado_tareas', 'lista_tarea_id', 'tarea_id')
-                    ->using(EstadoTarea::class)
                     ->withPivot('estado')
+                    ->using(EstadoTarea::class)
                     ->withTimestamps();
-    } */
+    }
 }
