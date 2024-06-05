@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('listas_tareas', function (Blueprint $table) {
+        Schema::create('casos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('nombre');
-            $table->decimal('progreso')->default(0.00);
+            $table->integer('progreso')->default(0);
+            $table->timestamp('fecha_limite')->nullable();
             $table->string('estado_pago', 20)->default('sin_pagar');
             $table->decimal('adelanto', 10, 2)->default(0.00);
             $table->decimal('monto_total', 10, 2)->default(0.00);
             $table->timestamps();
 
-        
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lista_tareas');
+        Schema::dropIfExists('casos');
     }
 };

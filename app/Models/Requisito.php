@@ -29,21 +29,22 @@ class Requisito extends Model
         'tipo_documento' => TipoDocumentoEnum::class
     ];
 
-    #[SearchUsingFullText(['titulo'])]
+ /*    #[SearchUsingFullText(['titulo'])]
     public function toSearchableArray(): array
     {
         return [
             'id' => $this->id,
             'titulo' => $this->titulo,
         ];
-    }
+    } */
 
     public function listaRequisito()
     {
         return $this->belongsTo(ListaRequisito::class, 'lista_requisitos_id');
     }
+
     public function archivos()
     {
-        return $this->hasMany(ArchivoRequisito::class);
+        return $this->hasMany(ArchivoRequisito::class, 'requisito_id');
     }
 }

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\EstadoTareaEnum;
-use App\Models\ListaTarea;
+use App\Models\Caso;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class TareaFactory extends Factory
     public function definition(): array
     {
         return [
-            'lista_tareas_id' => ListaTarea::factory(), // Relación con ListaTarea
+            // 'caso_id' => Caso::factory(), // Relación con Caso
             'titulo' => $this->faker->sentence,
             'descripcion' => $this->faker->paragraph,
             // 'estado' => $this->faker->randomElement(EstadoTareaEnum::cases()),

@@ -4,6 +4,7 @@
     use App\Enums\TipoDocumentoEnum;
 @endphp
 <x-app-layout>
+    @section('title', ''.($listasRequisito->id ? ' ' . $listasRequisito->nombre : ''))
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Detalles de la Lista de Requisitos

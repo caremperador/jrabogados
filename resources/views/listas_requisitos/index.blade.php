@@ -1,5 +1,6 @@
 <!-- resources/views/listas_requisitos/index.blade.php -->
 <x-app-layout>
+    @section('title', 'Lista de requisitos')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Listas de Requisitos

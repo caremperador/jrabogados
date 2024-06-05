@@ -63,9 +63,9 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
     
-    public function listasTareas()
+    public function casos()
     {
-        return $this->hasMany(ListaTarea::class, 'user_id');
+        return $this->hasMany(Caso::class, 'user_id');
     }
 
     public function listasRequisitos()

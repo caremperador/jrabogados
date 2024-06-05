@@ -1,5 +1,6 @@
 <!-- resources/views/requisitos/edit.blade.php -->
 <x-app-layout>
+    @section('title', ''.($requisito->id ? ' ' . $requisito->titulo : ''))
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Editar Requisito para {{ $listaRequisito->nombre }}
