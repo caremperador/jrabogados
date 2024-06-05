@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\RequisitoController;
-use App\Http\Controllers\ListaTareaController;
+use App\Http\Controllers\CasoController;
 use App\Http\Controllers\ListaRequisitoController;
 
 
-Route::resource('listas_tareas', ListaTareaController::class);
+Route::resource('casos', CasoController::class);
 Route::resource('tareas', TareaController::class);
 Route::resource('listas_requisitos', ListaRequisitoController::class);
 
@@ -21,7 +21,7 @@ Route::resource('requisitos', RequisitoController::class)->except(['create']);
 
 
 
-/* Route::prefix('listas_tareas/{lista_tarea}')->group(function () {
+/* Route::prefix('casos/{lista_tarea}')->group(function () {
     Route::resource('tareas', TareaController::class);
 }); */
 

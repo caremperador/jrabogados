@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ListaTarea>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Caso>
  */
-class ListaTareaFactory extends Factory
+class CasoFactory extends Factory
 {
     /**
      * Define the model's default state.

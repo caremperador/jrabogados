@@ -32,3 +32,4 @@ class EstadoTarea extends Pivot
         return $this->belongsTo(Tarea::class, 'tarea_id');
     }
 }
+

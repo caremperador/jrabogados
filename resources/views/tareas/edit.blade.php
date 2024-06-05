@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'tarea'.($tarea->id ? ' ' . $tarea->titulo : ''))
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Editar Tarea
@@ -13,13 +14,13 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
-                            <label for="lista_tareas_id" class="block text-gray-700 font-bold mb-2">Asignar a Lista de Tareas</label>
-                            <select name="lista_tareas_id" id="lista_tareas_id" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500">
-                                @foreach ($listasTareas as $listaTarea)
-                                    <option value="{{ $listaTarea->id }}" {{ $listaTarea->id == $tarea->lista_tareas_id ? 'selected' : '' }}>{{ $listaTarea->nombre }}</option>
+                            <label for="caso_id" class="block text-gray-700 font-bold mb-2">Caso</label>
+                            <select name="caso_id" id="caso_id" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500">
+                                @foreach ($casos as $caso)
+                                    <option value="{{ $caso->id }}" {{ $tarea->casos->contains($caso->id) ? 'selected' : '' }}>{{ $caso->nombre }}</option>
                                 @endforeach
                             </select>
-                            <x-input-error for="lista_tareas_id" class="mt-2" />
+                            <x-input-error for="caso_id" class="mt-2" />
                         </div>
                         <div class="mb-4">
                             <label for="titulo" class="block text-gray-700 font-bold mb-2">Título</label>
@@ -30,6 +31,15 @@
                             <label for="descripcion" class="block text-gray-700 font-bold mb-2">Descripción</label>
                             <textarea name="descripcion" id="descripcion" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500">{{ old('descripcion', $tarea->descripcion) }}</textarea>
                             <x-input-error for="descripcion" class="mt-2" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="estado_id" class="block text-gray-700 font-bold mb-2">Estado</label>
+                            <select name="estado_id" id="estado_id" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500">
+                                @foreach ($estados as $estado)
+                                    <option value="{{ $estado->id }}" {{ $tarea->estados->contains($estado->id) ? 'selected' : '' }}>{{ $estado->estado }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error for="estado_id" class="mt-2" />
                         </div>
                         <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-blue-500">Actualizar</button>
                     </form>

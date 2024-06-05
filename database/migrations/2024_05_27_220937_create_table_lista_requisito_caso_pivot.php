@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lista_requisito_lista_tarea', function (Blueprint $table) {
+        Schema::create('lista_requisito_caso', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lista_tarea_id');
+            $table->unsignedBigInteger('caso_id');
             $table->unsignedBigInteger('lista_requisito_id');
+            $table->timestamps();
 
             $table->index([
-                'lista_tarea_id',
+                'caso_id',
                 'lista_requisito_id',
             ],  'idx_tarea_requisito');
         });
+        
     }
 
     /**
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lista_requisito_lista_tarea');
+        Schema::dropIfExists('lista_requisito_caso');
     }
 };

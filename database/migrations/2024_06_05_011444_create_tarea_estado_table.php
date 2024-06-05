@@ -1,9 +1,8 @@
 <?php
 
-use App\Enums\EstadoTareaEnum;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -12,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estado_tareas', function (Blueprint $table) {
+        Schema::create('tarea_estado', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lista_tarea_id');
             $table->unsignedBigInteger('tarea_id');
-            $table->string('estado', 20)->default('no_iniciada');
+            $table->unsignedBigInteger('estado_id');
             $table->timestamps();
 
-            $table->foreign('lista_tarea_id')->references('id')->on('listas_tareas')->onDelete('cascade');
             $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
+            $table->foreign('estado_id')->references('id')->on('estados')->onDelete('cascade');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estado_tareas');
+        Schema::dropIfExists('tarea_estado');
     }
 };

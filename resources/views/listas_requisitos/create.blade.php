@@ -1,5 +1,6 @@
 <!-- resources/views/listas_requisitos/create.blade.php -->
 <x-app-layout>
+    @section('title', 'crear lista de requisitos')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Crear Nueva Lista de Requisitos
