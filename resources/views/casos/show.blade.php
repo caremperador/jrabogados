@@ -7,11 +7,11 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Costo del caso S/ {{ $caso->monto_total }} -
-            Estado de pago: @if ($caso->estado_pago == EstadoPagoEnum::SIN_PAGAR)
+            Estado de pago: @if ($caso->estado_pago == EstadoPagoEnum::SIN_PAGAR->value)
                 <span class="text-red-500">sin pagar</span>
-            @elseif ($caso->estado_pago == EstadoPagoEnum::PAGO_COMPLETO)
+            @elseif ($caso->estado_pago == EstadoPagoEnum::PAGO_COMPLETO->value)
                 <span class="text-green-500">pagado completo</span>
-            @elseif ($caso->estado_pago == EstadoPagoEnum::PAGO_INCOMPLETO)
+            @elseif ($caso->estado_pago == EstadoPagoEnum::PAGO_INCOMPLETO->value)
                 <span class="text-yellow-500">pago incompleto</span>
             @endif
             - Falta por pagar: S/ {{ $falta_por_pagar }}
