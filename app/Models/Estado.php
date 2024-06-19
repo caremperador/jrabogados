@@ -14,6 +14,9 @@ class Estado extends Model
     protected $fillable = [
         'estado',
     ];
+   /*  protected $casts = [
+        'estado' =>EstadoTareaEnum::class,
+    ]; */
 
     public function tareas()
     {
