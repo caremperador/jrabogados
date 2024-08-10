@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('progreso')->default(0);
             $table->timestamp('fecha_limite')->nullable();
             $table->string('estado_pago', 20)->default('sin_pagar');
-            $table->decimal('adelanto', 10, 2)->default(0.00);
+            $table->decimal('adelanto', 10, 2)->nullable()->default(0.00);
             $table->decimal('monto_total', 10, 2)->default(0.00);
             $table->timestamps();
 

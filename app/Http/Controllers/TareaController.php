@@ -76,4 +76,12 @@ class TareaController extends Controller
         $tarea->delete();
         return redirect()->route('tareas.index')->with('success', 'Tarea eliminada exitosamente.');
     }
+    public function updateEstado(Request $request, Tarea $tarea)
+{
+    $nuevoEstado = $request->input('estado');
+    $estado = Estado::where('estado', $nuevoEstado)->firstOrFail();
+    $tarea->estados()->sync([$estado->id]);
+    return back()->with('success', 'El estado de la tarea ha sido actualizado.');
+}
+
 }
