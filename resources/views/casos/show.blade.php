@@ -20,7 +20,7 @@
                 </span>
             </div>
         </div>
-        <div class="w-full h-9 bg-neutral-200 rounded-full dark:bg-neutral-600 overflow-hidden  border">
+        <div class="w-full h-9 bg-neutral-200 rounded-full dark:bg-neutral-600 overflow-hidden border">
             <div class="h-full flex items-center justify-center bg-{{$colorbarra}}-500 text-xs md:text-base font-medium text-white text-centerp-0.5 leading-none rounded-full" style="width: {{ $progreso }}%">
                 {{ number_format($progreso, 2) }}%
             </div>
@@ -36,17 +36,19 @@
                 @if ($tarea->estados->pluck('estado')->contains(App\Enums\EstadoTareaEnum::NO_INICIADA->value))
                     <div class="bg-white p-2 mb-2 rounded shadow">
                         <a href="{{ route('tareas.show', $tarea->id) }}">{{ $tarea->titulo }}</a>
-                        @if (auth()->user()->hasRole(['admin', 'asistente']))
-                            <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
-                                    <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}" selected>Sin empezar</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}">En proceso</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}">Finalizada</option>
-                                </select>
-                            </form>
-                        @endif
+                        @auth
+                            @if (auth()->user()->hasRole(['admin', 'asistente']))
+                                <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
+                                        <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}" selected>Sin empezar</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}">En proceso</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}">Finalizada</option>
+                                    </select>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 @endif
             @endforeach
@@ -59,17 +61,19 @@
                 @if ($tarea->estados->pluck('estado')->contains(App\Enums\EstadoTareaEnum::EN_PROCESO->value))
                     <div class="bg-white p-2 mb-2 rounded shadow">
                         <a href="{{ route('tareas.show', $tarea->id) }}">{{ $tarea->titulo }}</a>
-                        @if (auth()->user()->hasRole(['admin', 'asistente']))
-                            <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
-                                    <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}">Sin empezar</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}" selected>En proceso</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}">Finalizada</option>
-                                </select>
-                            </form>
-                        @endif
+                        @auth
+                            @if (auth()->user()->hasRole(['admin', 'asistente']))
+                                <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
+                                        <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}">Sin empezar</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}" selected>En proceso</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}">Finalizada</option>
+                                    </select>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 @endif
             @endforeach
@@ -82,17 +86,19 @@
                 @if ($tarea->estados->pluck('estado')->contains(App\Enums\EstadoTareaEnum::COMPLETADA->value))
                     <div class="bg-white p-2 mb-2 rounded shadow">
                         <a href="{{ route('tareas.show', $tarea->id) }}">{{ $tarea->titulo }}</a>
-                        @if (auth()->user()->hasRole(['admin', 'asistente']))
-                            <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
-                                    <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}">Sin empezar</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}">En proceso</option>
-                                    <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}" selected>Finalizada</option>
-                                </select>
-                            </form>
-                        @endif
+                        @auth
+                            @if (auth()->user()->hasRole(['admin', 'asistente']))
+                                <form action="{{ route('tareas.updateEstado', $tarea->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="estado" onchange="this.form.submit()" class="w-full mt-1 p-1 border rounded">
+                                        <option value="{{ App\Enums\EstadoTareaEnum::NO_INICIADA->value }}">Sin empezar</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::EN_PROCESO->value }}">En proceso</option>
+                                        <option value="{{ App\Enums\EstadoTareaEnum::COMPLETADA->value }}" selected>Finalizada</option>
+                                    </select>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 @endif
             @endforeach

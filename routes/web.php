@@ -17,6 +17,7 @@ Route::middleware(['role:admin|asistente'])->group(function () {
  // Ruta abierta para cualquier usuario no registrado
 Route::get('casos/{caso}', [CasoController::class, 'show'])->name('casos.show');
 Route::put('/tareas/{tarea}/estado', [TareaController::class, 'updateEstado'])->name('tareas.updateEstado');
+Route::put('/requisitos/{requisito}/update-estado', [RequisitoController::class, 'updateEstado'])->name('requisitos.updateEstado');
 
 
 // Ruta abierta para cualquier usuario registrado

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Perfil de Abogada')</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         body {
@@ -14,14 +16,15 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
 
     <!-- Componente de Navegación -->
     <nav class="fixed top-0 left-0 right-0 flex items-center justify-between flex-wrap bg-purple-700 p-6 shadow-lg z-50">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
             <a href="/"><img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8 w-8">
-            <a href="/"><span class="font-semibold text-xl tracking-tight ml-2">Defensor</span></a>
-        
+                <a href="/"><span class="font-semibold text-xl tracking-tight ml-2">Defensor</span></a>
+
         </div>
         <div class="block lg:hidden">
             <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-white border-white">
@@ -31,20 +34,44 @@
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto hidden" id="nav-content">
             <div class="text-sm lg:flex-grow">
                 @auth
-                    <a href="{{ route('casos.index') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
-                        Mis Casos
-                    </a>
-                    <a href="{{ route('requisitos.index') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
-                        Mis Requisitos
-                    </a>
+                    @if (auth()->user()->roles->isNotEmpty())
+                        <a href="{{ route('casos.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                            Casos
+                        </a>
+                        <a href="{{ route('requisitos.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                            Requisitos
+                        </a>
+                        <a href="{{ route('tareas.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                            Tareas
+                        </a>
+                        <a href="{{ route('listas_requisitos.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300">
+                            Listas de Requisitos
+                        </a>
+                    @else
+                        <a href="{{ route('casos.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                            Mis Casos
+                        </a>
+                        <a href="{{ route('requisitos.index') }}"
+                            class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                            Mis Requisitos
+                        </a>
+                    @endif
                 @else
-                    <a href="{{ route('login') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                    <a href="{{ route('login') }}"
+                        class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
                         Login
                     </a>
-                    <a href="{{ route('register') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300">
+                    <a href="{{ route('register') }}"
+                        class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300">
                         Register
                     </a>
                 @endauth
+
             </div>
         </div>
     </nav>
@@ -72,4 +99,5 @@
         });
     </script>
 </body>
+
 </html>

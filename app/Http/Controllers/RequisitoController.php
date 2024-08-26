@@ -8,6 +8,7 @@ use App\Models\ListaRequisito;
 use App\Enums\TipoDocumentoEnum;
 use App\Models\ArchivoRequisito;
 use App\Enums\EstadoRequisitoEnum;
+use Illuminate\Validation\Rule;
 
 class RequisitoController extends Controller
 {
@@ -18,7 +19,8 @@ class RequisitoController extends Controller
         return view('requisitos.index', compact('requisitos'));
     }
 
-    public function search(Request $request, Requisito $requisito) {
+    public function search(Request $request, Requisito $requisito)
+    {
         $q = $request->input('q', '');
         $requisitos = Requisito::search($q)->get();
         return response()->json($requisitos);
@@ -61,7 +63,7 @@ class RequisitoController extends Controller
 
     public function update(Request $request, Requisito $requisito)
     {
-        
+
         $request->validate([
             'archivo' => 'required|file|max:2048',
         ]);
@@ -83,4 +85,40 @@ class RequisitoController extends Controller
     {
         return view('requisitos.show', compact('requisito'));
     }
+
+    public function updateEstado(Request $request, Requisito $requisito)
+{
+    // Validación
+    $request->validate([
+        'estado' => [
+            'required',
+            Rule::in([
+                EstadoRequisitoEnum::NO_SUBIDO->value,
+                EstadoRequisitoEnum::REVISANDO->value,
+                EstadoRequisitoEnum::RECHAZADO->value,
+                EstadoRequisitoEnum::APROVADO->value,
+            ]),
+        ],
+        'razon_rechazo' => 'nullable|string|max:255',
+    ]);
+
+    // Actualiza el estado y el motivo de rechazo si es necesario
+    $requisito->estado = $request->input('estado');
+
+    // Solo actualiza el motivo de rechazo si el estado es "rechazado"
+    if ($request->input('estado') == EstadoRequisitoEnum::RECHAZADO->value) {
+        $requisito->razon_rechazo = $request->input('razon_rechazo');
+    } else {
+        $requisito->razon_rechazo = null; // Limpia el campo si no está en rechazado
+    }
+
+    // Guarda los cambios
+    $requisito->save();
+
+    // Redirige a la vista de requisito con un mensaje de éxito
+    return redirect()->route('requisitos.show', $requisito->id)
+        ->with('success', 'Estado del requisito actualizado correctamente.');
+}
+
+    
 }
