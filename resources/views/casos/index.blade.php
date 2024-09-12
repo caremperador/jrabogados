@@ -65,33 +65,36 @@
         </div>
     </form>
 
-
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white divide-y divide-gray-200">
             <thead>
                 <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         ID
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Nombre
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Usuario
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Progreso
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Estado de Pago
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Falta Pagar
+                    </th>
+                    <th scope="col"
+                        class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Acciones
                     </th>
                 </tr>
@@ -99,19 +102,19 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach ($casos as $caso)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-2 py-4 whitespace-nowrap">
                             {{ $caso->id }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            {{ $caso->nombre }}
+                        <td class="px-2 py-4 whitespace-nowrap">
+                            <span class="truncate" title="{{ $caso->nombre }}">{{ $caso->nombre }}</span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-2 py-4 whitespace-nowrap">
                             {{ $caso->user->name }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-2 py-4 whitespace-nowrap">
                             {{ $caso->progreso }}%
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-2 py-4 whitespace-nowrap">
                             @if ($caso->estado_pago == 'sin_pagar')
                                 <span class="text-red-500">Sin pagar</span>
                             @elseif ($caso->estado_pago == 'pago_completo')
@@ -120,16 +123,23 @@
                                 <span class="text-yellow-500">Pago incompleto</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('casos.show', $caso->id) }}" class="text-blue-500 hover:underline">Ver</a>
+                        <td class="px-2 py-4 whitespace-nowrap">
+                            S/ {{ number_format($caso->falta_por_pagar, 2) }}
+                        </td>
+                        <td class="px-2 py-4 whitespace-nowrap">
+                            <a href="{{ route('casos.show', $caso->id) }}" class="text-blue-500 hover:underline">
+                                <i class="fas fa-eye"></i>
+                            </a>
                             @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('asistente'))
-                                <a href="{{ route('casos.edit', $caso->id) }}"
-                                    class="text-yellow-500 hover:underline ml-3">Editar</a>
-                                <form action="{{ route('casos.destroy', $caso->id) }}" method="POST"
-                                    style="display:inline;">
+                                <a href="{{ route('casos.edit', $caso->id) }}" class="text-yellow-500 hover:underline ml-3">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('casos.destroy', $caso->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline ml-3">Eliminar</button>
+                                    <button type="submit" class="text-red-500 hover:underline ml-3">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </form>
                             @endif
                         </td>
@@ -138,4 +148,5 @@
             </tbody>
         </table>
     </div>
+    
 @endsection
