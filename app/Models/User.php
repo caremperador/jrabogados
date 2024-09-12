@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Enums\UsuarioSexoEnum;
+use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -26,11 +27,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $table = 'users';
+
     protected $fillable = [
         'name',
+        'telefono_whatsapp',
+        'edad',
+        'sexo',
+        'pais',
         'email',
         'password',
-
     ];
 
     /**
@@ -52,6 +57,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'sexo' => UsuarioSexoEnum::class,
     ];
 
     /**
@@ -62,7 +68,7 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-    
+
     public function casos()
     {
         return $this->hasMany(Caso::class, 'user_id');

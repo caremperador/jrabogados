@@ -5,7 +5,18 @@ use App\Http\Controllers\TareaController;
 use App\Http\Controllers\RequisitoController;
 use App\Http\Controllers\CasoController;
 use App\Http\Controllers\ListaRequisitoController;
+use App\Http\Controllers\UserController;
 
+
+
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+});
 
 
 Route::middleware(['role:admin|asistente'])->group(function () {
