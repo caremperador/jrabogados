@@ -51,6 +51,11 @@ class CasoController extends Controller
         // Obtener los casos filtrados
         $casos = $query->orderBy('created_at', 'desc')->get();
 
+        // Calcular la cantidad que falta por pagar para cada caso
+        foreach ($casos as $caso) {
+            $caso->falta_por_pagar = $caso->monto_total - $caso->adelanto;
+        }
+
         return view('casos.index', compact('casos'));
     }
 
