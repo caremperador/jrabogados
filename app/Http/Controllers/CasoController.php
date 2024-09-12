@@ -13,22 +13,47 @@ use Carbon\Carbon;
 
 class CasoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener el usuario autenticado
         $user = auth()->user();
 
-        // Verificar si el usuario tiene el rol de admin o asistente
-        if ($user->hasRole('admin') || $user->hasRole('asistente')) {
-            // Mostrar todos los casos si el usuario es admin o asistente
-            $casos = Caso::with('user')->orderBy('created_at', 'desc')->get();
-        } else {
-            // Mostrar solo los casos del usuario autenticado
-            $casos = Caso::with('user')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        // Consulta inicial
+        $query = Caso::with('user');
+
+        // Si el usuario no es admin o asistente, filtrar solo por sus casos
+        if (!$user->hasRole('admin') && !$user->hasRole('asistente')) {
+            $query->where('user_id', $user->id);
         }
+
+        // Aplicar filtros
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('cliente')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->cliente . '%');
+            });
+        }
+
+        if ($request->filled('estado_pago')) {
+            $query->where('estado_pago', $request->estado_pago);
+        }
+
+        if ($request->filled('fecha_inicio')) {
+            $query->whereDate('created_at', '>=', $request->fecha_inicio);
+        }
+
+        if ($request->filled('fecha_fin')) {
+            $query->whereDate('created_at', '<=', $request->fecha_fin);
+        }
+
+        // Obtener los casos filtrados
+        $casos = $query->orderBy('created_at', 'desc')->get();
 
         return view('casos.index', compact('casos'));
     }
+
 
 
     public function create()
